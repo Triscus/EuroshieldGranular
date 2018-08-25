@@ -8,7 +8,7 @@ The modified files are in this repository, make a backup first and copy them to:
 
 `C:\Program Files (x86)\Arduino\hardware\teensy\avr\libraries\Audio`
 
-You should be able to use the Sketch by default. 
+You should be able to use the sketch by default. To use the modified library look out for the definitions at the beginning of the code
 
 ## In/Outs
 * Input 1:	  Audio Input
@@ -23,6 +23,11 @@ You should be able to use the Sketch by default.
 * LED 1:		  active when Gate is HIGH
 
 *Note: The MIDI IN Port (Teensy Port 0) was used as a digital Input.*
+
+## TFT/Serial Out
+My Euroshield uses a ILI9342 TFT to display the values, but the relevant parts of the code are commented out by default. Per Default is a Serial Out which prints out the values of both Voices every second. Look out for the Definitions at the beginning.
+
+The TFT commands should be compatible with the Adafruit libraries.
 
 ## Function
 When the granular Effect begins, it plays back the dry signal for the length of the grain. The Mixer behind the effect opens when the playback of the dry sample stopped (Gate goes HIGH + grainLength) and closes when the Gate closes. So the playback starts after the time of the grain lenght has passed (It needs to 'record' the sample first)
