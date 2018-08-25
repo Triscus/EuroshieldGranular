@@ -53,10 +53,11 @@ The TFT commands should be compatible with the Adafruit libraries.
 * I used a Teensy 3.5 for this sketch, at the moment I cannot test it with a Teensy 3.2
 
 ## ToDo
-* Add Option to use a Trigger to start Sampling
+* Option to use a Trigger to start Sampling
+* Option to select between CV In or using the lower Knob
 * Adding SD-Card support
 * Add Effects
-* Option too choose between Freezing and Pitchshifting or use the two Ouputs for each of them
+* Option too choose between Freezing and Pitchshifting or use the two Ouputs for each of them (see https://www.pjrc.com/teensy/gui/index.html?info=AudioEffectGranular)
 * Fork / Pull request for the modified Audio Library
 
 
