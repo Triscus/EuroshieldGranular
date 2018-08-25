@@ -33,8 +33,8 @@ To reflect different CV Input Voltages, the maximum Value of the CVIn is saved f
 
 ## Known Issues
 
-*There's still a clicking sound when the playback of a grain stops (I think). It's clearly audible when using waveforms (e.g. from a VCO) as an audio input. Haven't noticed it when using an audio book as the audio source. 
-*I used a Teensy 3.5 for this sketch and wasn't able to test it with a Teensy 3.2
+* There's still a clicking sound when the playback of a grain stops (I think). It's clearly audible when using waveforms (e.g. from a VCO) as an audio input. Haven't noticed it when using an audio book as the audio source. 
+* I used a Teensy 3.5 for this sketch, at the moment I cannot test it with a Teensy 3.2
 
 ## ToDo
 
