@@ -20,7 +20,7 @@ The modified files are in this repository, make a backup first and copy them to:
 * Lower Pot:	None
 * LED 1:		  active when Gate is HIGH
 
-*Note: The MIDI IN Port (Teensy Port 0) was used as a digital Input. *
+*Note: The MIDI IN Port (Teensy Port 0) was used as a digital Input.*
 
 ## Function
 When the granular Effect begins, it plays back the dry signal for the length of the grain. The Mixer behind the effect opens when the playback of the dry sample stopped (Gate goes HIGH + grainLength) and closes when the Gate closes. So the playback starts after the time of the grain lenght has passed (It needs to 'record' the sample first)
