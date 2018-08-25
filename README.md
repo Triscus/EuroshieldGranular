@@ -2,9 +2,11 @@
 Granular Sampler for Euroshield Module by 1010Music
 
 ## Function
-The sketch begins sampling when the Gate Input is HIGH. After sampling is completed the sample is played back continously until the Gate is LOW. The playback Speed/Ratio can be changed on the fly via the CV-Input and changes the pitch of the sample. Try sampling some audio books and modulate the ratio with a turing machine :)
+The sketch begins sampling when the Gate Input is HIGH. After sampling is completed the sample is freezed and played back continously until the Gate is LOW. The playback Speed/Ratio can be changed on the fly via the CV-Input and changes the pitch of the sample. Try sampling some audio books and modulate the ratio with a turing machine :)
 
 When the granular effect begins, it plays back the dry signal for the length of the grain. The mixer behind the effect opens when the playback of the firtstmost dry sample stopped (Gate goes HIGH + grainLength) and closes when the Gate closes. So the playback starts after the time of the grain lenght has passed (It needs to 'record' the sample first) 
+
+Find more Info here: https://www.pjrc.com/teensy/gui/index.html?info=AudioEffectGranular
 
 Make sure the length of the gate is longer than the grain length. (at least x2 to play back one complete grain.)
 
