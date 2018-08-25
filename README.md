@@ -1,6 +1,8 @@
 # EuroshieldGranular
 Granular Sampler for Euroshield Module by 1010Music
 
+![Audion Scheme](EuroShieldGranular_Audio_Scheme.JPG)
+
 ## Function
 The sketch begins sampling when the Gate Input is HIGH. After sampling is completed the sample is freezed and played back continously until the Gate is LOW. The playback Speed/Ratio can be changed on the fly via the CV-Input and changes the pitch of the sample. Try sampling some audio books and modulate the ratio with a turing machine :)
 
