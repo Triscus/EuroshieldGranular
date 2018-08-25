@@ -29,15 +29,15 @@ To reflect different CV Input Voltages, the maximum Value of the CVIn is saved f
 *Note: The MIDI IN Port (Teensy Port 0) was used as a digital Input.*
 
 ## Modified Audio Library
-The Sampler can sample up to ~1450 ms of Audio when using a modified Teensy Audio library. The variables in `effect_granular.h` and `effect_granular.cpp` needs to be changed from type int16_t to int32_t. The sketch then can use up to 64000 bytes sample memory. In my setup I was able to use ~ 59015 bytes (1337ms) with 94% Memory Usage. (Teensy 3.5). The variable for the granular memory needs to be int32_t too. Not Sure if it works with Teens 3.2 as I wasn't able to test. 
+The Sampler can sample up to ~1450 ms of Audio when using a modified Teensy Audio library. The variables in `effect_granular.h` and `effect_granular.cpp` needs to be changed from type int16_t to int32_t. The sketch then can use up to 64000 bytes sample memory. In my setup I was able to use ~ 59015 bytes (1337 ms (Yay!)) with 94% Memory Usage. (Teensy 3.5). The variable for the granular memory needs to be int32_t too. 
 
-The modified files are in this repository, make a backup first and copy them to: 
+The modified files are in this repository, make a backup first and copy & replace them to: 
 
 `C:\Program Files (x86)\Arduino\hardware\teensy\avr\libraries\Audio`
 
-You should be able to use the sketch by default, the length of the sample is ~725 ms.
+You should be able to use the sketch by default, the length of the sample then is ~725 ms.
 
-To use the modified library look out for the definitions at the beginning of the code
+To use the modified library look out for the definitions at the beginning of the code. Not Sure if it works with Teens 3.2 as I wasn't able to test. 
 
 ## TFT/Serial Out
 My Euroshield uses a ILI9342 TFT to display the values, but the relevant parts of the code are commented out by default. Default is a Serial Out which prints out the values of both Voices every second. Look out for the Definitions at the beginning.
