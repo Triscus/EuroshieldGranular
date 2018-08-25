@@ -2,11 +2,13 @@
 Granular Sampler for Euroshield Module by 1010Music
 
 ## Modified Audio Library
-The Sampler can sample up to 1200 ms of Audio when using a modified Teensy Audio library. The variables in `effect_granular.h` and `effect_granular.cpp` needs to be changed from type int16_t to int32_t. The sketch then can use up to 64000 bytes sample memory. In my setup I was able to use 58000 bytes with 93% Memory Usage. (Teensy 3.5). The variable for the granular memory needs to be int32_t too.
+The Sampler can sample up to ~1450 ms of Audio when using a modified Teensy Audio library. The variables in `effect_granular.h` and `effect_granular.cpp` needs to be changed from type int16_t to int32_t. The sketch then can use up to 64000 bytes sample memory. In my setup I was able to use ~ 59015 bytes (1337ms) with 94% Memory Usage. (Teensy 3.5). The variable for the granular memory needs to be int32_t too. Not Sure if it works with Teens 3.2 as I wasn't able to test. 
 
 The modified files are in this repository, make a backup first and copy them to: 
 
 `C:\Program Files (x86)\Arduino\hardware\teensy\avr\libraries\Audio`
+
+You should be able to use the Sketch by default. 
 
 ## In/Outs
 * Input 1:	  Audio Input
