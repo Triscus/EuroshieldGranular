@@ -1,12 +1,14 @@
 # EuroshieldGranular
 Granular Sampler for Euroshield Module by 1010Music
 
-The Sampler can sample up to 1200 ms of Audio when using a modified Audio library. The variables in effect_granular.h and effect_granular.cpp needs to be changed from type int16_t to int32_t. The sketch then can use up to 64000 bytes sample memory. In my setup I was able to use 58000 bytes with 93% Memory Usage. (Teensy 3.5). The variable for the granular memory needs to be int32_t too.
+## Modified Audio Library
+The Sampler can sample up to 1200 ms of Audio when using a modified Teensy Audio library. The variables in effect_granular.h and effect_granular.cpp needs to be changed from type int16_t to int32_t. The sketch then can use up to 64000 bytes sample memory. In my setup I was able to use 58000 bytes with 93% Memory Usage. (Teensy 3.5). The variable for the granular memory needs to be int32_t too.
 
 The modified files are in this repository, make a backup first and copy them to: 
 
 C:\Program Files (x86)\Arduino\hardware\teensy\avr\libraries\Audio
 
+## In/Outs
 * Input 1:	  Audio Input
 * Input 2:	  CV Input for Playback Ratio
 * Output 1: 	Output from Granual Effect
@@ -18,11 +20,12 @@ C:\Program Files (x86)\Arduino\hardware\teensy\avr\libraries\Audio
 * Lower Pot:	None
 * LED 1:		  active when Gate is HIGH
 
-The MIDI IN Port (Teensy Port 0) was used as a digital Input. 
+*Note: The MIDI IN Port (Teensy Port 0) was used as a digital Input. *
 
-When the granular Effect begins, it plays back the dry signal for the length of the grain. The Mixer behind the effect opens when the playback of the dry sample stopped (Gate goes HIGH + grainLength) and closes when the Gate closes
+## Function
+When the granular Effect begins, it plays back the dry signal for the length of the grain. The Mixer behind the effect opens when the playback of the dry sample stopped (Gate goes HIGH + grainLength) and closes when the Gate closes. So the playback starts after the time of the grain lenght has passed (It needs to 'record' the sample first)
 
-The grain size will update when the Gate goes HIGH. The playback starts 
+The grain size will update when the Gate goes HIGH. 
 
 To reflect different CV Input Voltages, the maximum Value of the CVIn is saved for mapping the playback ratio. When you change the CV Source, it could be a good idea to reboot the module to reset the value.
 
