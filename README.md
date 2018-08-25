@@ -2,11 +2,11 @@
 Granular Sampler for Euroshield Module by 1010Music
 
 ## Modified Audio Library
-The Sampler can sample up to 1200 ms of Audio when using a modified Teensy Audio library. The variables in effect_granular.h and effect_granular.cpp needs to be changed from type int16_t to int32_t. The sketch then can use up to 64000 bytes sample memory. In my setup I was able to use 58000 bytes with 93% Memory Usage. (Teensy 3.5). The variable for the granular memory needs to be int32_t too.
+The Sampler can sample up to 1200 ms of Audio when using a modified Teensy Audio library. The variables in `effect_granular.h` and `effect_granular.cpp` needs to be changed from type int16_t to int32_t. The sketch then can use up to 64000 bytes sample memory. In my setup I was able to use 58000 bytes with 93% Memory Usage. (Teensy 3.5). The variable for the granular memory needs to be int32_t too.
 
 The modified files are in this repository, make a backup first and copy them to: 
 
-C:\Program Files (x86)\Arduino\hardware\teensy\avr\libraries\Audio
+`C:\Program Files (x86)\Arduino\hardware\teensy\avr\libraries\Audio`
 
 ## In/Outs
 * Input 1:	  Audio Input
@@ -34,6 +34,7 @@ To reflect different CV Input Voltages, the maximum Value of the CVIn is saved f
 ## Known Issues
 
 *There's still a clicking sound when the playback of a grain stops (I think). It's clearly audible when using waveforms (e.g. from a VCO) as an audio input. Haven't noticed it when using an audio book as the audio source. 
+*I used a Teensy 3.5 for this sketch and wasn't able to test it with a Teensy 3.2
 
 ## ToDo
 
