@@ -29,12 +29,12 @@
 #include <Bounce.h>
 
 //uncomment here if you want the Serial Out or TFT
-//#define SERIAL_OUT
-#define TFT
+#define SERIAL_OUT
+//#define TFT
 
-//choose between modified Audio Library (64KB Sample Lenght) and Vanilla Audio Library (32K Sample Length)
-//#define GRANULAR_SIZE_32K
-#define GRANULAR_SIZE_64K
+//choose between modified Audio Library (64KB Sample Length) and Vanilla Audio Library (32K Sample Length)
+#define GRANULAR_SIZE_32K
+//#define GRANULAR_SIZE_64K
 
 #ifdef TFT
 #include "ILI9341_t3.h"
@@ -122,14 +122,14 @@ bool gateInStateChanged[2];
 #define GRANULAR_MEMORY_SIZE 58000  // Sample Length 1315 ms at 44.1 kHz
 int32_t  granularMemory[GRANULAR_MEMORY_SIZE];
 
-#endif // GR
+#endif 
 
 #ifdef GRANULAR_SIZE_32K
 
 #define GRANULAR_MEMORY_SIZE 32000  //  Sample Length 725 ms at 44.1 kHz
 int16_t  granularMemory[GRANULAR_MEMORY_SIZE];
 
-#endif // GR
+#endif 
 
 #define MAX_SAMPLE_LENGTH round(GRANULAR_MEMORY_SIZE /44.1)
 elapsedMillis envelopeMillis;
@@ -314,20 +314,3 @@ float mapfloat(float x, float in_min, float in_max, float out_min, float out_max
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
-//int buttonState = digitalRead(buttonInput);
-
-//if (bouncer1.fallingEdge()) {
-//	long ms = millis();
-//	if (ms - lastButtonMS > debounceMS) {
-//		if (buttonState == LOW) {
-//			//	float msec = 100.0 + (potValueFloat[0] * 190.0);
-//			granular1.beginFreeze(msec);
-//		}
-//	}
-//}
-
-//if (bouncer1.risingEdge()) {
-//	granular1.stop();
-//	//Serial.println("Stopping granular freeze");
-//}
-//	Serial.println(sensorVal);
