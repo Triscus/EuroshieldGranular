@@ -5,21 +5,18 @@
 
 	Granular Synth Effect for Euroshield by 1010Music
 
+	https://github.com/Triscus/EuroshieldGranular
+
 	Input 1:	Audio Input
-	Input 2:	CV Input (not implemented yet)
+	Input 2:	CV Input
 	Output 1:	Output from Granual Effect
 	Output 2:	Dry Output
 
 	MIDI In:	Gate IN
 	MIDI Out:	n/a
 	Upper Pot:	Grain Size (20-290ms)
-	Lower Pot:	Playback Ratio of the Grain (from x0.1 to x8.0)
+	Lower Pot:
 	LED 1:		active when Gate is high
-
-	When the granular Effect begins, it plays back the dry signal for the length of the grain length.
-	The Mixer behind the effect opens when the playback of the dry sample stopped (Gate goes HIGH + grainLength) and closes when the Gate closes
-
-	When the Sample starts or ends at a high amplitude a clicking sound can occour. To prevent this, an envelope is used with a 5 ms attack and 5m release, timed at the begin and end of the sample.
 
 */
 
@@ -32,8 +29,12 @@
 #include <Bounce.h>
 
 //uncomment here if you want the Serial Out or TFT
-#define TFT
 //#define SERIAL_OUT
+#define TFT
+
+//choose between modified Audio Library (64KB Sample Lenght) and Vanilla Audio Library (32K Sample Length)
+//#define GRANULAR_SIZE_32K
+#define GRANULAR_SIZE_64K
 
 #ifdef TFT
 #include "ILI9341_t3.h"
@@ -115,9 +116,22 @@ bool gateInState_old[2];
 bool gateInStateChanged[2];
 
 //----GRANULAR EFFECT--------
-#define GRANULAR_MEMORY_SIZE 58000  // enough for 742 ms at 44.1 kHz
+
+#ifdef GRANULAR_SIZE_64K
+
+#define GRANULAR_MEMORY_SIZE 58000  // Sample Length 1315 ms at 44.1 kHz
 int32_t  granularMemory[GRANULAR_MEMORY_SIZE];
-#define MAX_SAMPLE_LENGTH 1200
+
+#endif // GR
+
+#ifdef GRANULAR_SIZE_32K
+
+#define GRANULAR_MEMORY_SIZE 32000  //  Sample Length 725 ms at 44.1 kHz
+int16_t  granularMemory[GRANULAR_MEMORY_SIZE];
+
+#endif // GR
+
+#define MAX_SAMPLE_LENGTH round(GRANULAR_MEMORY_SIZE /44.1)
 elapsedMillis envelopeMillis;
 elapsedMillis granularMillis;
 bool granularActive;
