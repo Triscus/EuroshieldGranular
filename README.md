@@ -44,7 +44,7 @@ You should be able to use the sketch by default, the length of the sample then i
 To use the modified library look out for the definitions at the beginning of the code. Not Sure if it works with Teens 3.2 as I wasn't able to test. 
 
 ## TFT/Serial Out
-My Euroshield uses a ILI9342 TFT to display the values, but the relevant parts of the code are commented out by default. Default is a Serial Out which prints out the values of both Voices every second. Look out for the Definitions at the beginning.
+My Euroshield uses a ILI9342 TFT to display the values, but the relevant parts of the code are commented out by default. Default is a Serial Out which prints out the grain sample length and playback ratio. Look out for the Definitions at the beginning.
 
 The TFT commands should be compatible with the Adafruit libraries.
 
