@@ -16,13 +16,13 @@ To reflect different CV Input Voltages, the maximum Value of the CVIn is saved f
 
 ## In/Outs
 * Input 1:	  Audio Input
-* Input 2:	  CV Input for Playback Ratio
+* Input 2:	  CV Input for Playback Ratio (0.125 - 8.0)
 * Output 1: 	Output from Granual Effect
 * Output 2:	  Dry Output
 
-* MIDI In:	  Gate IN
+* MIDI In:	  Gate IN (Digital Input
 * MIDI Out:	  n/a
-* Upper Pot:	Grain Size (20-290ms)
+* Upper Pot:	Grain Size (20-1337 ms dependng on Memory Size)
 * Lower Pot:	None
 * LED 1:		  active when Gate is HIGH
 
