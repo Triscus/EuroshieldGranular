@@ -20,7 +20,7 @@ To reflect different CV Input Voltages, the maximum Value of the CVIn is saved f
 
 ## In/Outs
 * Input 1:	  Audio Input
-* Input 2:	  CV Input for Playback Ratio (0.125 - 8.0)
+* Input 2:	  CV Input for Playback Ratio (0.125 - 3.0)
 * Output 1: 	Output from Granual Effect
 * Output 2:	  Dry Output
 
