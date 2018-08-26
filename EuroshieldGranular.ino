@@ -1,23 +1,18 @@
 /*
-	Name:       EuroshieldGranular.ino
-	Created:	24.08.2018 14:06:30
-	Author:     Triscus
-
-	Granular Synth Effect for Euroshield by 1010Music
-
-	https://github.com/Triscus/EuroshieldGranular
-
-	Input 1:	Audio Input
-	Input 2:	CV Input
-	Output 1:	Output from Granual Effect
-	Output 2:	Dry Output
-
-	MIDI In:	Gate IN
-	MIDI Out:	n/a
-	Upper Pot:	Grain Size (20-290ms)
-	Lower Pot:
-	LED 1:		active when Gate is high
-
+Name:       EuroshieldGranular.ino
+Created:	24.08.2018 14:06:30
+Author:     Triscus
+Granular Synth Effect for Euroshield by 1010Music
+https://github.com/Triscus/EuroshieldGranular
+Input 1:	Audio Input
+Input 2:	CV Input
+Output 1:	Output from Granual Effect
+Output 2:	Dry Output
+MIDI In:	Gate IN
+MIDI Out:	n/a
+Upper Pot:	Grain Size (20-290ms)
+Lower Pot:
+LED 1:		active when Gate is high
 */
 
 #include "Audio.h"
@@ -29,12 +24,12 @@
 #include <Bounce.h>
 
 //uncomment here if you want the Serial Out or TFT
-#define SERIAL_OUT
-//#define TFT
+//#define SERIAL_OUT
+#define TFT
 
 //choose between modified Audio Library (64KB Sample Length) and Vanilla Audio Library (32K Sample Length)
-#define GRANULAR_SIZE_32K
-//#define GRANULAR_SIZE_64K
+//#define GRANULAR_SIZE_32K
+#define GRANULAR_SIZE_64K
 
 #ifdef TFT
 #include "ILI9341_t3.h"
@@ -69,11 +64,11 @@ AudioConnection          patchCord4(envelope1, granular1);
 AudioConnection          patchCord5(granular1, 0, mixer1, 0);
 AudioConnection          patchCord6(mixer1, 0, i2s2, 0);
 AudioControlSGTL5000     audioShield;     //xy=446,367
-										 // GUItool: end automatically generated code
+										  // GUItool: end automatically generated code
 
-// GUItool: end automatically generated code
+										  // GUItool: end automatically generated code
 
-//---------------POTS-------------------
+										  //---------------POTS-------------------
 
 #define POT_MIN_VALUE 1
 #define POT_MAX_VALUE 1023
@@ -122,14 +117,14 @@ bool gateInStateChanged[2];
 #define GRANULAR_MEMORY_SIZE 58000  // Sample Length 1315 ms at 44.1 kHz
 int32_t  granularMemory[GRANULAR_MEMORY_SIZE];
 
-#endif 
+#endif
 
 #ifdef GRANULAR_SIZE_32K
 
 #define GRANULAR_MEMORY_SIZE 32000  //  Sample Length 725 ms at 44.1 kHz
 int16_t  granularMemory[GRANULAR_MEMORY_SIZE];
 
-#endif 
+#endif
 
 #define MAX_SAMPLE_LENGTH round(GRANULAR_MEMORY_SIZE /44.1)
 elapsedMillis envelopeMillis;
@@ -171,13 +166,13 @@ void setup()
 	envelope1.release(RELEASE_TIME);
 	//	envelope1.releaseNoteOn(10);
 
-		//pin configuration
+	//pin configuration
 	pinMode(buttonInput, INPUT);
 
 	//using MIDI IN/OUT as Digital Inputs
 	pinMode(GATE_IN0, INPUT_PULLUP);
 	pinMode(GATE_IN1, INPUT_PULLUP);
-
+	mixer1.gain(0, 1.0);
 	//LEDS
 	for (int i = 0; i < ledPinCount; i++)
 		pinMode(ledPins[i], OUTPUT);
@@ -230,9 +225,6 @@ void loop()
 	}
 	peakCVLastRawValue = peakCV;
 
-	//Update Button State
-	//bouncer1.update();
-
 	// Continuously adjust the speed, based on the Lower pot
 	float ratio = mapfloat(peakCV, 0.0, maxPeakCV, 0.125, 3.0);
 	granular1.setSpeed(ratio);
@@ -243,13 +235,23 @@ void loop()
 	// Hold Phase of the envelope (Grain Lenght - Attack - Release)
 	envelope1.hold(msec - ATTACK_TIME - RELEASE_TIME);
 
+	//Update Button State
+	bouncer1.update();
+
+	if (bouncer1.fallingEdge() == true)
+	{
+		granular1.beginFreeze(msec);
+		envelope1.noteOn();
+		digitalWrite(ledPins[0], HIGH); // Light up LED 1
+	}
+
 	// If gate has change and is HIGH (State is reversed, HIGH is false)
 	if (gateInStateChanged[0] == true && gateInState[0] == false)
 
 	{
-		envelope1.noteOn();				//Start enevlope
-		granular1.beginFreeze(msec);	//Start sampling
-	//	granular1.beginPitchShift(msec);
+		//	envelope1.noteOn();				//Start enevlope
+		granular1.playSample();	//Start sampling
+	//	granular1.beginPitchShift(msec / 3);		//	granular1.beginPitchShift(msec);
 		granularActive = true;
 		granularMillis = 0;				//reset the Timer of the Effect duration
 		digitalWrite(ledPins[0], HIGH); // Light up LED 1
@@ -259,17 +261,17 @@ void loop()
 	if (gateInStateChanged[0] == true && gateInState[0] == true)
 
 	{
-		mixer1.gain(0, 0.0);	// close Mixer
-		granular1.stop();		// stop effect
-		granularActive = false;
+		////	mixer1.gain(0, 0.0);	// close Mixer
+		//	granular1.stop();		// stop effect
+		//	granularActive = false;
 		digitalWrite(ledPins[0], LOW);	// dim LED 1
 	}
 
-	// Open the mixer if the effect is active longer than the first sample
-	if (granularActive == true && granularMillis > msec)
-	{
-		mixer1.gain(0, 1.0);
-	}
+	//// Open the mixer if the effect is active longer than the first sample
+	//if (granularActive == true && granularMillis > msec)
+	//{
+	//	mixer1.gain(0, 1.0);
+	//}
 
 	if (envelope1.isActive() && (envelopeMillis > msec * 2 - RELEASE_TIME))
 	{
@@ -305,7 +307,7 @@ void loop()
 		Serial.print("Ratio:");
 		Serial.println(ratio);
 		serialMillis = 0;
-	}
+}
 #endif
 }
 
@@ -313,4 +315,3 @@ float mapfloat(float x, float in_min, float in_max, float out_min, float out_max
 {
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
-
