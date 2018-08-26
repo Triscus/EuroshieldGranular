@@ -44,13 +44,19 @@ void AudioEffectGranular::beginFreeze_int(int grain_samples)
 	grain_mode = 1;
 	if (grain_samples < max_sample_len) {
 		freeze_len = grain_samples;
-	} else {
+	}
+	else {
 		freeze_len = grain_samples;
 	}
 	sample_loaded = false;
 	write_en = false;
 	sample_req = true;
 	__enable_irq();
+}
+
+void AudioEffectGranular::playSample()
+{
+	play_sample = true;
 }
 
 void AudioEffectGranular::beginPitchShift_int(int grain_samples)
@@ -77,7 +83,7 @@ void AudioEffectGranular::stop()
 
 void AudioEffectGranular::update(void)
 {
-	audio_block_t *block;
+	//audio_block_t *block;
 
 	if (sample_bank == NULL) {
 		block = receiveReadOnly(0);
@@ -85,26 +91,32 @@ void AudioEffectGranular::update(void)
 		return;
 	}
 
-	block = receiveWritable(0);
-	if (!block) return;
+	if (sample_req)
+
+	{
+		block = receiveWritable(0);
+		if (!block) return;
+	}
 
 	if (grain_mode == 0) {
 		// passthrough, no granular effect
-		prev_input = block->data[AUDIO_BLOCK_SAMPLES-1];
+		prev_input = block->data[AUDIO_BLOCK_SAMPLES - 1];
 	}
 	else if (grain_mode == 1) {
 		// Freeze - sample 1 grain, then repeatedly play it back
+
 		for (int j = 0; j < AUDIO_BLOCK_SAMPLES; j++) {
 			if (sample_req) {
 				// only begin capture on zero cross
 				int16_t current_input = block->data[j];
 				if ((current_input < 0 && prev_input >= 0) ||
-				  (current_input >= 0 && prev_input < 0)) {
+					(current_input >= 0 && prev_input < 0)) {
 					write_en = true;
 					write_head = 0;
 					read_head = 0;
 					sample_req = false;
-				} else {
+				}
+				else {
 					prev_input = current_input;
 				}
 			}
@@ -117,7 +129,7 @@ void AudioEffectGranular::update(void)
 					write_en = false;
 				}
 			}
-			if (sample_loaded) {
+			if (sample_loaded && play_sample == true) {
 				if (playpack_rate >= 0) {
 					accumulator += playpack_rate;
 					read_head = accumulator >> 16;
@@ -125,9 +137,15 @@ void AudioEffectGranular::update(void)
 				if (read_head >= freeze_len) {
 					accumulator = 0;
 					read_head = 0;
+					play_sample = false;
 				}
 				block->data[j] = sample_bank[read_head];
 			}
+		}
+		if (play_sample == true)
+		{
+			transmit(block);
+			release(block);
 		}
 	}
 	else if (grain_mode == 2) {
@@ -142,9 +160,10 @@ void AudioEffectGranular::update(void)
 			if (sample_req) {
 				int16_t current_input = block->data[k];
 				if ((current_input < 0 && prev_input >= 0) ||
-				  (current_input >= 0 && prev_input < 0)) {
+					(current_input >= 0 && prev_input < 0)) {
 					write_en = true;
-				} else {
+				}
+				else {
 					prev_input = current_input;
 				}
 			}
@@ -178,11 +197,11 @@ void AudioEffectGranular::update(void)
 					sample_bank[m + glitch_len] = 0;
 				}
 
-				for (int m = 2; m < glitch_len-m2; m++) {
+				for (int m = 2; m < glitch_len - m2; m++) {
 					sample_bank[m + glitch_len] = sample_bank[m];
 				}
 
-				for (int m = glitch_len-m2; m < glitch_len; m++) {
+				for (int m = glitch_len - m2; m < glitch_len; m++) {
 					// fade out the end. You can just make fadet=0
 					// but it's a little too daleky
 					float fadet = sample_bank[m] * (m2 / fade_len);
@@ -202,17 +221,16 @@ void AudioEffectGranular::update(void)
 				accumulator = 0;
 
 				for (int m = 0; m < glitch_len; m++) {
-					sample_bank[m + (glitch_len*2)] = sample_bank[m+glitch_len];
+					sample_bank[m + (glitch_len * 2)] = sample_bank[m + glitch_len];
 					//  sample_bank[m + (glitch_len*2)] = (m%20)*1000;
 				}
 			}
-			block->data[k] = sample_bank[read_head + (glitch_len*2)];
+			block->data[k] = sample_bank[read_head + (glitch_len * 2)];
 		}
 	}
-	transmit(block);
-	release(block);
+	/*if (grain_mode != 1)
+	{
+		transmit(block);
+		release(block);
+	}*/
 }
-
-
-
-

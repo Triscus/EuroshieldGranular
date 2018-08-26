@@ -41,12 +41,17 @@ public:
 		if (grain_length <= 0.0) return;
 		beginPitchShift_int(grain_length * (AUDIO_SAMPLE_RATE_EXACT * 0.001) + 0.5);
 	}
+
 	void stop();
+
+	void playSample();
+
 	virtual void update(void);
 private:
 	void beginFreeze_int(int grain_samples);
 	void beginPitchShift_int(int grain_samples);
 	audio_block_t *inputQueueArray[1];
+	audio_block_t *block;
 	int32_t *sample_bank;
 	uint32_t playpack_rate;
 	uint32_t accumulator;
@@ -57,8 +62,10 @@ private:
 	int32_t freeze_len;
 	int32_t prev_input;
 	int32_t glitch_len;
+	int32_t blockIndex;
 	bool allow_len_change;
 	bool sample_loaded;
 	bool write_en;
 	bool sample_req;
+	bool play_sample;
 };
